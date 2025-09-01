@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { feedbackData } from "@/data/sampleData";
+import { feedbackData } from "@/data/sampleData.ts";
 import { useToast } from "@/hooks/use-toast";
 
 export default function Feedback() {

@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { soilData } from "@/data/sampleData";
+import { soilData } from "@/data/sampleData.ts";
 
 export default function SoilHealth() {
   const [selectedLocation, setSelectedLocation] = useState("Punjab");

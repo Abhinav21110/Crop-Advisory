@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { chatbotResponses, voiceResponses } from "@/data/sampleData";
+import { chatbotResponses, voiceResponses } from "@/data/sampleData.ts";
 import { VoiceBot } from "@/components/VoiceBot";
 import { useLanguage } from "@/contexts/LanguageContext";
 
