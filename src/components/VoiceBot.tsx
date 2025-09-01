@@ -3,7 +3,7 @@ import { Mic, MicOff, Volume2, VolumeX } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage } from "@/hooks/useLanguage";
 
 interface VoiceBotProps {
   onVoiceInput?: (text: string) => void;
@@ -14,10 +14,12 @@ export function VoiceBot({ onVoiceInput, onVoiceOutput }: VoiceBotProps) {
   const [isListening, setIsListening] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isSupported, setIsSupported] = useState(true);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const recognitionRef = useRef<any>(null);
   const { language, t } = useLanguage();
 
   // Check for speech recognition support
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
 
   const startListening = () => {
@@ -34,7 +36,16 @@ export function VoiceBot({ onVoiceInput, onVoiceOutput }: VoiceBotProps) {
     const langMap: Record<string, string> = {
       'en': 'en-US',
       'hi': 'hi-IN',
-      'te': 'te-IN'
+      'te': 'te-IN',
+      'pa': 'pa-IN',
+      'ta': 'ta-IN',
+      'bn': 'bn-IN',
+      'gu': 'gu-IN',
+      'kn': 'kn-IN',
+      'ml': 'ml-IN',
+      'mr': 'mr-IN',
+      'or': 'or-IN',
+      'ur': 'ur-IN'
     };
     recognition.lang = langMap[language] || 'en-US';
 
@@ -78,8 +89,17 @@ export function VoiceBot({ onVoiceInput, onVoiceOutput }: VoiceBotProps) {
     // Set language for speech synthesis
     const langMap: Record<string, string> = {
       'en': 'en-US',
-      'hi': 'hi-IN', 
-      'te': 'te-IN'
+      'hi': 'hi-IN',
+      'te': 'te-IN',
+      'pa': 'pa-IN',
+      'ta': 'ta-IN',
+      'bn': 'bn-IN',
+      'gu': 'gu-IN',
+      'kn': 'kn-IN',
+      'ml': 'ml-IN',
+      'mr': 'mr-IN',
+      'or': 'or-IN',
+      'ur': 'ur-IN'
     };
     utterance.lang = langMap[language] || 'en-US';
     
@@ -113,12 +133,12 @@ export function VoiceBot({ onVoiceInput, onVoiceOutput }: VoiceBotProps) {
         <CardHeader>
           <CardTitle className="text-destructive flex items-center gap-2">
             <MicOff className="h-5 w-5" />
-            Voice Not Supported
+{t('voiceSupported') || 'Voice Not Supported'}
           </CardTitle>
         </CardHeader>
         <CardContent>
           <p className="text-sm text-muted-foreground">
-            Your browser doesn't support speech recognition. Please use a modern browser like Chrome or Edge.
+            {t('voiceNotSupported') || 'Your browser doesn\'t support speech recognition. Please use a modern browser like Chrome or Edge.'}
           </p>
         </CardContent>
       </Card>
@@ -126,7 +146,7 @@ export function VoiceBot({ onVoiceInput, onVoiceOutput }: VoiceBotProps) {
   }
 
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-3 relative">
       <Button
         variant={isListening ? "destructive" : "outline"}
         size="icon"
@@ -134,7 +154,7 @@ export function VoiceBot({ onVoiceInput, onVoiceOutput }: VoiceBotProps) {
         className={`transition-all duration-300 ${
           isListening ? "animate-pulse shadow-glow" : "hover:scale-110"
         }`}
-        title={isListening ? "Stop listening" : "Start voice input"}
+        title={isListening ? t('stopListening') : t('startListening')}
       >
         {isListening ? (
           <MicOff className="h-4 w-4" />
@@ -150,7 +170,7 @@ export function VoiceBot({ onVoiceInput, onVoiceOutput }: VoiceBotProps) {
         className={`transition-all duration-300 ${
           isSpeaking ? "animate-pulse" : "hover:scale-110"
         }`}
-        title={isSpeaking ? "Stop speaking" : "Test voice output"}
+        title={isSpeaking ? t('stopListening') : t('speak')}
       >
         {isSpeaking ? (
           <VolumeX className="h-4 w-4" />
@@ -162,9 +182,9 @@ export function VoiceBot({ onVoiceInput, onVoiceOutput }: VoiceBotProps) {
       {(isListening || isSpeaking) && (
         <Badge 
           variant={isListening ? "destructive" : "default"}
-          className="animate-pulse"
+          className="animate-pulse absolute -top-8 left-0 z-50 bg-white border shadow-lg"
         >
-          {isListening ? t('listening') : 'Speaking...'}
+          {isListening ? t('listening') : t('speaking') || 'Speaking...'}
         </Badge>
       )}
     </div>

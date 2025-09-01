@@ -18,8 +18,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { LanguageToggle } from "@/components/LanguageToggle";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { LanguageSelector } from "@/components/LanguageSelector";
+import { useLanguage } from "@/hooks/useLanguage";
 
 const navigation = [
   { name: "dashboard", href: "/", icon: Home },
@@ -84,7 +84,6 @@ export function Navigation() {
           
           <div className="flex items-center space-x-2">
             <div className="hidden md:flex items-center space-x-2">
-              <LanguageToggle />
               <ThemeToggle />
             </div>
             <div className="md:hidden">
@@ -148,8 +147,10 @@ export function Navigation() {
               );
             })}
             
-            {/* Hide/Show Toggle Button */}
-            <div className="border-l border-border/50 pl-2 ml-2">
+            {/* Language Selector & Controls */}
+            <div className="border-l border-border/50 pl-2 ml-2 flex items-center space-x-2">
+              <LanguageSelector />
+              <ThemeToggle />
               <Button
                 variant="ghost"
                 size="icon"

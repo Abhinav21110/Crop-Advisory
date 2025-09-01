@@ -1,20 +1,32 @@
 import { useState } from "react";
-import { FlaskConical, TrendingUp, TrendingDown, Minus, AlertCircle, CheckCircle } from "lucide-react";
+import { FlaskConical, TrendingUp, TrendingDown, Minus, AlertCircle, CheckCircle, Filter, Search, MapPin } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { soilData } from "@/data/sampleData.ts";
+import { indianStatesSoilData, getSoilHealthScore, getAllStates } from "@/components/IndianStatesSoilData";
 
 export default function SoilHealth() {
   const [selectedLocation, setSelectedLocation] = useState("Punjab");
+  const [filterSoilType, setFilterSoilType] = useState("All");
+  const [searchTerm, setSearchTerm] = useState("");
   
-  const currentSoil = soilData.find(
+  const currentSoil = indianStatesSoilData.find(
     soil => soil.location === selectedLocation
-  ) || soilData[0];
+  ) || indianStatesSoilData[0];
 
-  const locations = [...new Set(soilData.map(item => item.location))];
+  const locations = getAllStates();
+
+  // Filter and search functionality
+  const filteredSoilData = indianStatesSoilData.filter(soil => {
+    const matchesSearch = soil.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         soil.soilType.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesFilter = filterSoilType === "All" || soil.soilType === filterSoilType;
+    return matchesSearch && matchesFilter;
+  });
+
+  const uniqueSoilTypes = ["All", ...new Set(indianStatesSoilData.map(soil => soil.soilType))];
 
   const getNutrientStatus = (value: number, type: 'N' | 'P' | 'K') => {
     const ranges = {
@@ -243,14 +255,55 @@ export default function SoilHealth() {
         </Card>
       </div>
 
-      {/* All Locations Data */}
+      {/* Search and Filter Controls */}
       <Card className="card-hover">
         <CardHeader>
-          <CardTitle>All Field Analysis</CardTitle>
+          <CardTitle className="flex items-center space-x-2">
+            <Search className="h-5 w-5 text-primary" />
+            <span>Search & Filter States</span>
+          </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {soilData.map((soil) => (
+          <div className="flex flex-col md:flex-row gap-4">
+            <div className="flex-1">
+              <input
+                type="text"
+                placeholder="Search by state or soil type..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+              />
+            </div>
+            <Select value={filterSoilType} onValueChange={setFilterSoilType}>
+              <SelectTrigger className="w-full md:w-[200px]">
+                <SelectValue placeholder="Filter by soil type" />
+              </SelectTrigger>
+              <SelectContent>
+                {uniqueSoilTypes.map((type) => (
+                  <SelectItem key={type} value={type}>
+                    {type}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="mt-4 text-sm text-muted-foreground">
+            Showing {filteredSoilData.length} of {indianStatesSoilData.length} states
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* All States Data */}
+      <Card className="card-hover">
+        <CardHeader>
+          <CardTitle className="flex items-center space-x-2">
+            <MapPin className="h-5 w-5 text-accent" />
+            <span>All Indian States Soil Analysis</span>
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {filteredSoilData.map((soil) => (
               <Card 
                 key={soil.id}
                 className={`transition-smooth hover:shadow-md cursor-pointer ${
@@ -262,7 +315,18 @@ export default function SoilHealth() {
               >
                 <CardHeader className="pb-3">
                   <CardTitle className="text-lg">{soil.location}</CardTitle>
-                  <Badge variant="outline">{soil.soilType}</Badge>
+                  <div className="flex items-center justify-between">
+                    <Badge variant="outline">{soil.soilType}</Badge>
+                    <Badge 
+                      className={`${
+                        getSoilHealthScore(soil) >= 80 ? 'bg-green-100 text-green-800' :
+                        getSoilHealthScore(soil) >= 60 ? 'bg-yellow-100 text-yellow-800' :
+                        'bg-red-100 text-red-800'
+                      }`}
+                    >
+                      {getSoilHealthScore(soil)}/100
+                    </Badge>
+                  </div>
                 </CardHeader>
                 <CardContent className="space-y-3">
                   <div className="grid grid-cols-2 gap-2 text-sm">
@@ -270,6 +334,19 @@ export default function SoilHealth() {
                     <div>N: <span className="font-medium">{soil.nitrogen}</span></div>
                     <div>P: <span className="font-medium">{soil.phosphorus}</span></div>
                     <div>K: <span className="font-medium">{soil.potassium}</span></div>
+                  </div>
+                  <div className="text-xs text-muted-foreground">
+                    <div className="font-medium mb-1">Major Crops:</div>
+                    <div className="flex flex-wrap gap-1">
+                      {soil.majorCrops.slice(0, 3).map((crop, index) => (
+                        <span key={index} className="bg-muted px-2 py-1 rounded text-xs">
+                          {crop}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="text-xs text-muted-foreground">
+                    Climate: <span className="font-medium">{soil.climate}</span>
                   </div>
                 </CardContent>
               </Card>

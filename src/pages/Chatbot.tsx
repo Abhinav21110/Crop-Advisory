@@ -6,9 +6,10 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { chatbotResponses, voiceResponses } from "@/data/sampleData.ts";
 import { VoiceBot } from "@/components/VoiceBot";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage } from "@/hooks/useLanguage";
+import { geminiChatbotService, GeminiChatQuery } from "@/services/geminiChatbotService";
+import { LanguageSelector } from "@/components/LanguageSelector";
 
 interface Message {
   id: number;
@@ -16,6 +17,8 @@ interface Message {
   sender: 'user' | 'bot';
   timestamp: Date;
   language?: string;
+  data?: Record<string, unknown>;
+  suggestions?: string[];
 }
 
 export default function Chatbot() {
@@ -23,17 +26,20 @@ export default function Chatbot() {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
-      text: "Hello! I'm your CropCare assistant. I can help you with farming questions, crop advice, pest management, and more. How can I assist you today?",
+      text: "Hello! I'm your CropCare AI assistant powered by Google Gemini 2.5 Pro and real agricultural data. I can provide intelligent recommendations for crops, soil management, pest control, fertilizers, and regional farming guidance. How can I help you today?",
       sender: 'bot',
-      timestamp: new Date()
+      timestamp: new Date(),
+      suggestions: [
+        "Recommend crops for my farm",
+        "Tell me about soil types",
+        "Pest control methods",
+        "Fertilizer requirements"
+      ]
     }
   ]);
   const [inputMessage, setInputMessage] = useState("");
-  const [selectedLanguage, setSelectedLanguage] = useState("English");
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  const languages = ["English", "Hindi", "Marathi", "Telugu", "Tamil", "Gujarati"];
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -42,37 +48,37 @@ export default function Chatbot() {
   // Removed auto-scroll to prevent unwanted scrolling behavior
   // Users can manually scroll to see new messages
 
-  const findBotResponse = (userInput: string, language: string) => {
-    // Find matching response from sample data
-    const response = chatbotResponses.find(
-      r => r.language === language && 
-      (userInput.toLowerCase().includes(r.userInput.toLowerCase()) || 
-       r.userInput.toLowerCase().includes(userInput.toLowerCase()))
-    );
-    
-    if (response) return response.botResponse;
-    
-    // Fallback responses based on keywords
-    if (userInput.toLowerCase().includes('weather')) {
-      return "Based on current weather data, I recommend monitoring humidity levels and preparing for potential rainfall. Check the weather section for detailed forecasts.";
+  const getBotResponse = async (userInput: string) => {
+    try {
+      const query: GeminiChatQuery = {
+        message: userInput,
+        language: language, // Use language from context
+        context: {
+          location: undefined,
+          soilType: undefined,
+          season: undefined,
+          cropType: undefined
+        }
+      }; 
+      
+      const response = await geminiChatbotService.processQuery(query);
+      return response;
+    } catch (error) {
+      console.error('Error getting bot response:', error);
+      return {
+        text: language === "Hindi" 
+          ? "मुझे खेद है, मुझे अभी तकनीकी समस्या का सामना करना पड़ रहा है। कृपया बाद में पुनः प्रयास करें।"
+          : "I apologize, but I'm experiencing technical difficulties. Please try again later or ask a simpler question.",
+        suggestions: [
+          "Try a basic farming question",
+          "Ask about crop types",
+          "Tell me about soil"
+        ]
+      };
     }
-    if (userInput.toLowerCase().includes('soil')) {
-      return "For soil health, I suggest regular pH testing and nutrient analysis. Our soil health monitor can provide detailed recommendations for your specific field conditions.";
-    }
-    if (userInput.toLowerCase().includes('pest') || userInput.toLowerCase().includes('disease')) {
-      return "For pest and disease management, early detection is key. Use our pest detection feature to identify issues and get treatment recommendations.";
-    }
-    if (userInput.toLowerCase().includes('market') || userInput.toLowerCase().includes('price')) {
-      return "Current market prices are available in our market section. I can help you track price trends and find the best selling opportunities.";
-    }
-    
-    // Default response
-    return language === "Hindi" 
-      ? "मैं आपकी मदद करने के लिए यहाँ हूँ। कृपया अपना प्रश्न और विस्तार से बताएं।"
-      : "I'm here to help you with your farming questions. Could you please provide more details about what you'd like to know?";
   };
 
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (!inputMessage.trim()) return;
 
     const userMessage: Message = {
@@ -83,23 +89,37 @@ export default function Chatbot() {
     };
 
     setMessages(prev => [...prev, userMessage]);
+    const currentInput = inputMessage;
     setInputMessage("");
     setIsTyping(true);
 
-    // Simulate bot response delay
-    setTimeout(() => {
-      const botResponse = findBotResponse(inputMessage, selectedLanguage);
+    try {
+      // Get real data-driven response
+      const botResponse = await getBotResponse(currentInput);
       const botMessage: Message = {
         id: messages.length + 2,
-        text: botResponse,
+        text: botResponse.text,
         sender: 'bot',
         timestamp: new Date(),
-        language: selectedLanguage
+        language: language,
+        data: botResponse.data as Record<string, unknown>,
+        suggestions: botResponse.suggestions
       };
       
       setMessages(prev => [...prev, botMessage]);
+    } catch (error) {
+      console.error('Error sending message:', error);
+      const errorMessage: Message = {
+        id: messages.length + 2,
+        text: "I apologize, but I'm having trouble processing your request. Please try again.",
+        sender: 'bot',
+        timestamp: new Date(),
+        language: language
+      };
+      setMessages(prev => [...prev, errorMessage]);
+    } finally {
       setIsTyping(false);
-    }, 1000 + Math.random() * 2000);
+    }
   };
 
   const handleVoiceInput = (text: string) => {
@@ -107,39 +127,40 @@ export default function Chatbot() {
   };
 
   const playVoiceResponse = (messageText: string) => {
-    // Find matching voice response
-    const voiceResponse = voiceResponses.find(
-      r => messageText.toLowerCase().includes(r.command)
-    );
-    
-    if (voiceResponse) {
-      // In a real app, this would play the actual audio
-      console.log("Playing voice response:", voiceResponse.response);
-      // Simulate audio playback
+    try {
+      // Use browser's speech synthesis to read the response
       const utterance = new SpeechSynthesisUtterance(messageText);
+      utterance.rate = 0.8;
+      utterance.pitch = 1;
+      utterance.volume = 0.8;
       speechSynthesis.speak(utterance);
+    } catch (error) {
+      console.error('Error playing voice response:', error);
     }
   };
 
   const quickQuestions = [
-    "What crops should I plant this season?",
-    "How do I test my soil?",
-    "What are today's market prices?",
-    "How to control pests naturally?",
-    "When should I irrigate my crops?",
-    "Weather forecast for farming"
+    "Recommend crops for my soil conditions",
+    "Tell me about different soil types",
+    "What are common crop pests and diseases?",
+    "Fertilizer requirements for different crops",
+    "Seasonal farming calendar",
+    "Regional crop recommendations for my state"
   ];
+
+  const handleSuggestionClick = (suggestion: string) => {
+    setInputMessage(suggestion);
+  };
 
   return (
     <div className="space-y-8">
       {/* Header */}
       <div className="text-center space-y-4">
-        <h1 className="text-4xl font-bold font-heading text-foreground">
-          CropCare {t('chatbot')}
+        <h1 className="text-4xl font-bold font-heading text-foreground mb-4">
+          {t('cropCareAIAssistant') || 'CropCare AI Assistant'}
         </h1>
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-          Get instant answers to your farming questions with voice and multilingual support. 
-          Ask about crops, soil, weather, pests, and market prices.
+          {t('aiAssistantDescription') || 'Get intelligent AI-powered answers to your farming questions with voice and multilingual support. Powered by Gemini 2.5 Pro with comprehensive agricultural data.'}
         </p>
       </div>
 
@@ -147,7 +168,7 @@ export default function Chatbot() {
       <Card className="card-hover">
         <CardHeader>
           <CardTitle className="flex items-center justify-between">
-            <span>Voice & Language Controls</span>
+            <span>{t('voiceLanguageControls') || 'Voice & Language Controls'}</span>
             <Badge variant="outline" className="bg-accent/10">
               {t('voiceSupported')}
             </Badge>
@@ -156,18 +177,7 @@ export default function Chatbot() {
         <CardContent>
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <Select value={selectedLanguage} onValueChange={setSelectedLanguage}>
-                <SelectTrigger className="w-[200px]">
-                  <SelectValue placeholder="Select language" />
-                </SelectTrigger>
-                <SelectContent>
-                  {languages.map((lang) => (
-                    <SelectItem key={lang} value={lang}>
-                      {lang}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <LanguageSelector />
             </div>
             
             <VoiceBot 
@@ -183,7 +193,7 @@ export default function Chatbot() {
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
             <MessageCircle className="h-5 w-5 text-accent" />
-            <span>Chat with CropCare AI</span>
+            <span>{t('chatWithCropCareAI') || 'Chat with CropCare AI'}</span>
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -231,6 +241,23 @@ export default function Chatbot() {
                       </Button>
                     )}
                   </div>
+                  
+                  {/* Bot suggestions */}
+                  {message.sender === 'bot' && message.suggestions && message.suggestions.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      {message.suggestions.map((suggestion, index) => (
+                        <Button
+                          key={index}
+                          variant="outline"
+                          size="sm"
+                          className="text-xs h-7 px-2 hover:bg-accent"
+                          onClick={() => handleSuggestionClick(suggestion)}
+                        >
+                          {suggestion}
+                        </Button>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
@@ -257,13 +284,18 @@ export default function Chatbot() {
           {/* Input Area */}
           <div className="flex items-center space-x-2">
             <Input
-              placeholder={`Type your farming question in ${selectedLanguage}...`}
+              placeholder={t('typeMessage') || 'Type your farming question...'}
               value={inputMessage}
               onChange={(e) => setInputMessage(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+              onKeyPress={(e) => e.key === 'Enter' && !isTyping && handleSendMessage()}
+              disabled={isTyping}
               className="flex-1"
             />
-            <Button onClick={handleSendMessage} className="gradient-primary text-white border-0">
+            <Button 
+              onClick={handleSendMessage} 
+              disabled={isTyping || !inputMessage.trim()}
+              className="gradient-primary text-white border-0"
+            >
               <Send className="h-4 w-4" />
             </Button>
           </div>
@@ -298,7 +330,7 @@ export default function Chatbot() {
             <Languages className="h-8 w-8 text-primary mx-auto mb-3" />
             <h3 className="font-semibold mb-2">Multilingual Support</h3>
             <p className="text-sm text-muted-foreground">
-              Get assistance in your preferred local language for better understanding.
+              Get assistance in Telugu, Hindi, Punjabi and other Indian languages using AI4BHARAT.
             </p>
           </CardContent>
         </Card>
@@ -318,7 +350,7 @@ export default function Chatbot() {
             <Bot className="h-8 w-8 text-secondary mx-auto mb-3" />
             <h3 className="font-semibold mb-2">Smart Responses</h3>
             <p className="text-sm text-muted-foreground">
-              AI-powered answers based on your location, crop, and season data.
+              AI-powered responses using Gemini 2.5 Pro with comprehensive agricultural knowledge.
             </p>
           </CardContent>
         </Card>

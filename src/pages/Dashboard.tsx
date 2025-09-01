@@ -13,7 +13,7 @@ import { DashboardCard } from "@/components/DashboardCard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { weatherData, soilData, marketPrices, cropAdvisoryData } from "@/data/sampleData.ts";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage } from "@/hooks/useLanguage";
 
 export default function Dashboard() {
   const [animateCards, setAnimateCards] = useState(false);
