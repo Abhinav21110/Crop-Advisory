@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { marketPrices } from "../data/sampleData";
+import { marketPrices } from "../data/sampleData.ts";
 
 export default function MarketPrices() {
   const [searchTerm, setSearchTerm] = useState("");
