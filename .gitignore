@@ -1,0 +1,56 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Large model files (too big for GitHub)
+Models/crop_recommendation.pkl
+Models/fertilizer_recommendation.pkl
+Models/pest_classifier_best.pth
+Models/crop_model.pkl
+Models/*.pkl
+Models/*.pth
+Models/*.h5
+Models/*.model
+Models/*.joblib
+
+# Dataset files (too large for GitHub)
+DATASETS/
+*.csv
+dataset/
+data/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.env
+.venv/
+
+# Build outputs
+build/
+dist/

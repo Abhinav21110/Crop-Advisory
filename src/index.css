@@ -1,0 +1,226 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* CropCare Design System - Earthy farming theme with smooth animations
+All colors are HSL for consistency and theme support.
+*/
+
+@layer base {
+  :root {
+    /* Base colors - warm, earthy farming palette */
+    --background: 42 15% 97%;
+    --foreground: 30 15% 15%;
+
+    /* Card surfaces */
+    --card: 42 15% 99%;
+    --card-foreground: 30 15% 15%;
+
+    /* Popover surfaces */
+    --popover: 42 15% 99%;
+    --popover-foreground: 30 15% 15%;
+
+    /* Primary - Deep forest green */
+    --primary: 100 35% 22%;
+    --primary-foreground: 42 15% 97%;
+    --primary-glow: 100 45% 35%;
+
+    /* Secondary - Warm earth brown */
+    --secondary: 30 35% 45%;
+    --secondary-foreground: 42 15% 97%;
+
+    /* Muted tones */
+    --muted: 42 10% 90%;
+    --muted-foreground: 30 8% 50%;
+
+    /* Accent - Fresh crop green */
+    --accent: 88 50% 53%;
+    --accent-foreground: 30 15% 15%;
+
+    /* Status colors */
+    --destructive: 0 65% 51%;
+    --destructive-foreground: 42 15% 97%;
+    --success: 120 40% 40%;
+    --success-foreground: 42 15% 97%;
+    --warning: 45 93% 47%;
+    --warning-foreground: 30 15% 15%;
+
+    /* UI Elements */
+    --border: 42 15% 85%;
+    --input: 42 15% 95%;
+    --ring: 100 35% 22%;
+
+    /* Enhanced gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
+    --gradient-earth: linear-gradient(135deg, hsl(var(--secondary)), hsl(30 45% 55%));
+    --gradient-fresh: linear-gradient(135deg, hsl(var(--accent)), hsl(88 60% 65%));
+    --gradient-hero: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%);
+
+    /* Shadows with earthy tones */
+    --shadow-soft: 0 2px 8px hsl(var(--primary) / 0.08);
+    --shadow-medium: 0 8px 25px hsl(var(--primary) / 0.12);
+    --shadow-strong: 0 15px 35px hsl(var(--primary) / 0.15);
+    --shadow-glow: 0 0 30px hsl(var(--accent) / 0.25);
+
+    /* Smooth transitions */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bouncy: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    /* Dark theme with a modern, cool blue-gray palette */
+    --background: 220 15% 10%;
+    --foreground: 220 10% 95%;
+
+    --card: 220 15% 12%;
+    --card-foreground: 220 10% 95%;
+
+    --popover: 220 15% 12%;
+    --popover-foreground: 220 10% 95%;
+
+    /* Primary - Brighter forest green for dark mode */
+    --primary: 100 45% 35%;
+    --primary-foreground: 42 15% 95%;
+    --primary-glow: 100 55% 45%;
+
+    /* Secondary - Warm earth tones */
+    --secondary: 30 25% 25%;
+    --secondary-foreground: 42 15% 95%;
+
+    --muted: 220 10% 20%;
+    --muted-foreground: 220 10% 65%;
+
+    /* Accent - Fresh green */
+    --accent: 88 60% 65%;
+    --accent-foreground: 25 15% 8%;
+
+    /* Status colors for dark mode */
+    --destructive: 0 75% 55%;
+    --destructive-foreground: 42 15% 95%;
+    --success: 120 50% 50%;
+    --success-foreground: 42 15% 95%;
+    --warning: 45 93% 55%;
+    --warning-foreground: 25 15% 8%;
+
+    --border: 220 15% 20%;
+    --input: 220 15% 18%;
+    --ring: 100 45% 35%;
+
+    --sidebar-background: 220 15% 10%;
+    --sidebar-foreground: 220 10% 95%;
+    --sidebar-primary: 100 45% 35%;
+    --sidebar-primary-foreground: 42 15% 95%;
+    --sidebar-accent: 220 10% 20%;
+    --sidebar-accent-foreground: 220 10% 95%;
+    --sidebar-border: 220 15% 20%;
+    --sidebar-ring: 100 45% 35%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+  }
+}
+
+/* Smooth animations and keyframes */
+@layer utilities {
+  /* Card hover effects */
+  .card-hover {
+    @apply transition-all duration-300 hover:shadow-[var(--shadow-medium)] hover:-translate-y-1;
+  }
+
+  .gradient-primary {
+    background: var(--gradient-primary);
+  }
+
+  .gradient-earth {
+    background: var(--gradient-earth);
+  }
+
+  .gradient-fresh {
+    background: var(--gradient-fresh);
+  }
+
+  .gradient-hero {
+    background: var(--gradient-hero);
+  }
+
+  .transition-smooth {
+    transition: var(--transition-smooth);
+  }
+
+  .transition-bouncy {
+    transition: var(--transition-bouncy);
+  }
+
+  /* Glow effects */
+  .glow-accent {
+    box-shadow: var(--shadow-glow);
+  }
+
+  /* Farming-themed animations */
+  .fade-in-up {
+    @apply opacity-0 translate-y-4 transition-all duration-700 ease-out;
+  }
+
+  .fade-in-up.animate {
+    @apply opacity-100 translate-y-0;
+  }
+
+  .scale-on-hover {
+    @apply transition-transform duration-300 hover:scale-105;
+  }
+
+  .pulse-slow {
+    animation: pulse-slow 3s ease-in-out infinite;
+  }
+
+  @keyframes pulse-slow {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.7;
+    }
+  }
+
+  /* Dashboard card animations */
+  .stagger-children > * {
+    @apply transition-all duration-500 ease-out;
+  }
+
+  .stagger-children > *:nth-child(1) { animation-delay: 0.1s; }
+  .stagger-children > *:nth-child(2) { animation-delay: 0.2s; }
+  .stagger-children > *:nth-child(3) { animation-delay: 0.3s; }
+  .stagger-children > *:nth-child(4) { animation-delay: 0.4s; }
+  .stagger-children > *:nth-child(5) { animation-delay: 0.5s; }
+  .stagger-children > *:nth-child(6) { animation-delay: 0.6s; }
+}
