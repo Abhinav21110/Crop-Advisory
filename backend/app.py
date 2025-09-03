@@ -638,7 +638,9 @@ def test_prediction():
 if __name__ == '__main__':
     # Start the Flask app immediately
     print("Starting CropCare API server...")
-    print("Server will be available at http://localhost:5000")
+    port = int(os.environ.get('PORT', '5000'))
+    host = os.environ.get('HOST', '0.0.0.0')
+    print(f"Binding to http://{host}:{port}")
     
     # Load model synchronously first
     try:
@@ -650,9 +652,8 @@ if __name__ == '__main__':
         print("Server will start without model - some endpoints may not work")
     
     try:
-        # Run the Flask app
+        # Run the Flask app (Render requires 0.0.0.0 and PORT)
         print("Starting Flask server...")
-        app.run(host='127.0.0.1', port=5000, debug=True, threaded=True)
+        app.run(host=host, port=port, debug=False, threaded=True)
     except Exception as e:
         print(f"Error starting Flask server: {e}")
-        input("Press Enter to exit...")
