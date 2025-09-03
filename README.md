@@ -69,26 +69,34 @@ npm run build:gh-pages
 
 ## Deployment
 
-This project is configured for automatic deployment to GitHub Pages using GitHub Actions.
+This project supports deployment to both GitHub Pages and Vercel.
 
-### Manual Deployment Steps:
+### GitHub Pages (Recommended)
 
-1. **Build the project**:
-   ```bash
-   npm run build:gh-pages
-   ```
+Already configured with a workflow at `.github/workflows/gh-pages.yml`.
 
-2. **Enable GitHub Pages** in your repository settings:
-   - Go to Settings → Pages
-   - Set Source to "GitHub Actions"
+Steps:
+1. Ensure repo name is `Crop-Advisory` (matches base path).
+2. Push to `main`.
+3. In GitHub → Settings → Pages, set Source to "GitHub Actions". The workflow builds with `VITE_BASE=/Crop-Advisory/` and publishes `dist`.
 
-3. **Push to main branch** - The GitHub Action will automatically deploy your site.
+Local build for Pages:
+```bash
+npm run build:gh-pages
+```
+Artifacts are in `dist/`. A `public/404.html` is included for SPA routing.
 
-### Repository Settings:
+Production URL: `https://abhinav21110.github.io/Crop-Advisory/`
 
-- **Repository name**: `Crop-Advisory`
-- **GitHub Pages URL**: `https://abhinav21110.github.io/Crop-Advisory/`
-- **Branch**: `gh-pages` (automatically created by GitHub Actions)
+### Vercel
+
+Steps:
+1. Import the repo in Vercel.
+2. Build command: `npm run build`
+3. Output directory: `dist`
+4. Environment variable (optional): none required; base is `/` by default.
+
+`vercel.json` includes SPA rewrites so deep links resolve to `index.html`.
 
 ## Project Structure
 
