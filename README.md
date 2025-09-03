@@ -1,91 +1,138 @@
-# FarmWise - Smart Farming Platform
+# CropCare - Smart Farming Platform
 
-## Project Overview
-
-FarmWise is a comprehensive smart farming platform that provides farmers with essential tools for crop advisory, soil health monitoring, weather insights, pest detection, market prices, and AI-powered assistance.
+A comprehensive farming platform providing crop advisory, soil health monitoring, weather insights, and market price information.
 
 ## Features
 
-- **Dashboard**: Overview of farming operations and key metrics
-- **Crop Advisory**: Expert recommendations for crop management
-- **Soil Health**: Monitor and analyze soil conditions
-- **Weather**: Real-time weather data and forecasts
-- **Pest Detection**: AI-powered pest identification and treatment recommendations
-- **Market Prices**: Current market rates for agricultural products
-- **AI Chatbot**: Intelligent farming assistant for instant help
-- **Feedback System**: Share experiences and get community support
+- 🌱 **Crop Advisory**: Get personalized crop recommendations
+- 🌍 **Soil Health Monitoring**: Track and analyze soil conditions
+- 🌤️ **Weather Insights**: Real-time weather data and forecasts
+- 💰 **Market Prices**: Stay updated with current market trends
+- 🐛 **Pest Detection**: Identify and manage crop pests
+- 💬 **AI Chatbot**: Get instant farming advice
+- 🌐 **Multi-language Support**: Available in multiple languages
+- 🎨 **Modern UI**: Beautiful, responsive design with dark/light themes
+
+## Tech Stack
+
+- **Frontend**: React 18 + TypeScript + Vite
+- **UI Components**: Shadcn/ui + Tailwind CSS
+- **Routing**: React Router DOM
+- **State Management**: React Context + TanStack Query
+- **AI Integration**: Google Gemini API
+- **Deployment**: GitHub Pages
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js (v18 or higher)
-- npm or yarn package manager
+- Node.js 18+ 
+- npm or yarn
 
 ### Installation
 
 1. Clone the repository:
-```sh
-git clone <YOUR_GIT_URL>
+```bash
+git clone https://github.com/abhinav21110/Crop-Advisory.git
+cd Crop-Advisory
 ```
 
-2. Navigate to the project directory:
-```sh
-cd farm-future-assist-main
-```
-
-3. Install dependencies:
-```sh
+2. Install dependencies:
+```bash
 npm install
 ```
 
+3. Create a `.env` file in the root directory:
+```env
+VITE_GEMINI_API_KEY=your_gemini_api_key_here
+VITE_WEATHER_API_KEY=your_weather_api_key_here
+```
+
 4. Start the development server:
-```sh
+```bash
 npm run dev
 ```
 
-The application will be available at `http://localhost:8080`
+5. Open [http://localhost:8080](http://localhost:8080) in your browser.
 
-## Technologies Used
+## Building for Production
 
-- **Frontend**: React 18 with TypeScript
-- **Build Tool**: Vite
-- **UI Framework**: Tailwind CSS
-- **Component Library**: shadcn/ui with Radix UI primitives
-- **Routing**: React Router DOM
-- **State Management**: React Query (TanStack Query)
-- **Icons**: Lucide React
-- **Charts**: Recharts
+### Local Build
+```bash
+npm run build
+```
 
-## Development
+### GitHub Pages Build
+```bash
+npm run build:gh-pages
+```
 
-### Available Scripts
+## Deployment
 
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run build:dev` - Build in development mode
-- `npm run preview` - Preview production build
-- `npm run lint` - Run ESLint
+This project is configured for automatic deployment to GitHub Pages using GitHub Actions.
 
-### Project Structure
+### Manual Deployment Steps:
+
+1. **Build the project**:
+   ```bash
+   npm run build:gh-pages
+   ```
+
+2. **Enable GitHub Pages** in your repository settings:
+   - Go to Settings → Pages
+   - Set Source to "GitHub Actions"
+
+3. **Push to main branch** - The GitHub Action will automatically deploy your site.
+
+### Repository Settings:
+
+- **Repository name**: `Crop-Advisory`
+- **GitHub Pages URL**: `https://abhinav21110.github.io/Crop-Advisory/`
+- **Branch**: `gh-pages` (automatically created by GitHub Actions)
+
+## Project Structure
 
 ```
 src/
-├── components/     # Reusable UI components
-├── contexts/       # React contexts
-├── data/          # Sample data and constants
-├── pages/         # Page components
-└── assets/        # Static assets
+├── components/          # Reusable UI components
+├── contexts/           # React contexts for state management
+├── data/              # Static data and sample data
+├── hooks/             # Custom React hooks
+├── lib/               # Utility functions
+├── pages/             # Page components
+├── services/          # API services and external integrations
+└── assets/            # Images and static assets
 ```
+
+## Environment Variables
+
+| Variable | Description | Required |
+|----------|-------------|----------|
+| `VITE_GEMINI_API_KEY` | Google Gemini API key for AI chatbot | Yes |
+| `VITE_WEATHER_API_KEY` | Weather API key for weather data | Yes |
 
 ## Contributing
 
 1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Support
+
+If you encounter any issues or have questions, please:
+1. Check the [Issues](https://github.com/abhinav21110/Crop-Advisory/issues) page
+2. Create a new issue with detailed information
+3. Contact the development team
+
+## Acknowledgments
+
+- [Shadcn/ui](https://ui.shadcn.com/) for beautiful UI components
+- [Tailwind CSS](https://tailwindcss.com/) for utility-first CSS framework
+- [Google Gemini](https://ai.google.dev/) for AI capabilities
+- [React](https://react.dev/) for the amazing framework
