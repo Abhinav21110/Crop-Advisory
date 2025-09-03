@@ -5,6 +5,7 @@ from pathlib import Path
 import joblib
 import numpy as np
 import pandas as pd
+import requests
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 
@@ -153,6 +154,27 @@ def load_crop_model():
     """Load the crop recommendation model."""
     global model_loaded, crop_model, label_encoder, scaler
     try:
+        # Ensure Models directory exists
+        os.makedirs("Models", exist_ok=True)
+        
+        # Download crop_model.pkl if not present
+        if not os.path.exists("Models/crop_model.pkl") and "MODEL_URL" in os.environ:
+            print("Downloading crop_model.pkl...")
+            r = requests.get(os.environ["MODEL_URL"])
+            r.raise_for_status()
+            with open("Models/crop_model.pkl", "wb") as f:
+                f.write(r.content)
+            print("crop_model.pkl downloaded!")
+        
+        # Download scaler.pkl if not present and SCALER_URL exists
+        if not os.path.exists("Models/scaler.pkl") and "SCALER_URL" in os.environ:
+            print("Downloading scaler.pkl...")
+            r = requests.get(os.environ["SCALER_URL"])
+            r.raise_for_status()
+            with open("Models/scaler.pkl", "wb") as f:
+                f.write(r.content)
+            print("scaler.pkl downloaded!")
+        
         # Load model from Models directory
         model_path = CROP_MODEL_PATH
         print(f"Attempting to load model from: {model_path}")
