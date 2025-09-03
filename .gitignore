@@ -38,7 +38,9 @@ Models/*.joblib
 DATASETS/
 *.csv
 dataset/
+# Allow app source data while ignoring top-level data folders
 data/
+!src/data/**
 
 # Python cache
 __pycache__/
