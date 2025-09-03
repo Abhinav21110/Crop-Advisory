@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { pestLibrary } from "@/data/sampleData.ts";
+import { pestLibrary } from "@/data/sampleData";
 
 export default function PestDetection() {
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);

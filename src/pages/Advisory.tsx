@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/components/ui/use-toast";
-import { cropAdvisoryData } from "@/data/sampleData.ts";
+import { cropAdvisoryData } from "@/data/sampleData";
 import CropRecommendationForm from "@/components/CropRecommendationForm";
 
 interface RegionalRecommendation {
