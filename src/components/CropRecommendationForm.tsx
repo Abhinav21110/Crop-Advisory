@@ -93,6 +93,7 @@ interface PredictionResult {
 }
 
 export default function CropRecommendationForm() {
+  const API_BASE = (import.meta as any).env?.VITE_API_BASE || import.meta.env.VITE_API_BASE || 'http://localhost:5000';
   const soilTypes = [
     'Sandy', 'Loam', 'Black', 'Clay', 'Red', 'Silt', 'Chalky', 'Peaty', 
     'Gravel', 'Laterite', 'Alluvial', 'Coastal'
@@ -302,7 +303,7 @@ export default function CropRecommendationForm() {
         }
       }
 
-      const response = await fetch('http://localhost:5000/predict', {
+      const response = await fetch(`${API_BASE}/predict`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

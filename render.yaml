@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: cropcare-backend
+    env: python
+    plan: starter
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: python backend/app.py
+    autoDeploy: true
+    envVars:
+      - key: FRONTEND_ORIGIN
+        sync: false
+

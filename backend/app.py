@@ -10,7 +10,8 @@ from flask_cors import CORS
 
 # Initialize Flask app
 app = Flask(__name__)
-CORS(app, origins=['http://localhost:8080', 'http://127.0.0.1:8080']) 
+FRONTEND_ORIGIN = os.getenv('FRONTEND_ORIGIN', 'http://localhost:8080')
+CORS(app, origins=[FRONTEND_ORIGIN]) 
 
 # --- Globals ---
 model_loaded = False

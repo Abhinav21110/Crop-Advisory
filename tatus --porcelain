@@ -1,0 +1,8 @@
+[33m29c1a5c[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m models added and updated the backend
+[33m05dbb82[m chore(models): force add model artifacts for backend
+[33m0b2f59c[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m camera access
+[33m641f194[m chore: force add sampleData
+[33mb6f486b[m fix(gitignore): allow committing src/data and add sampleData
+[33ma9bdbcd[m sample data added
+[33m72b75b8[m vercel
+[33mfc27531[m feat: deploy via GitHub Actions
