@@ -133,6 +133,13 @@ All colors are HSL for consistency and theme support.
     --sidebar-border: 220 15% 20%;
     --sidebar-ring: 100 45% 35%;
   }
+
+  /* Dark mode body background */
+  .dark body {
+    background-image: 
+      linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+      url('/premium_photo-1661811677567-6f14477aa1fa.jpg');
+  }
 }
 
 @layer base {
@@ -141,8 +148,16 @@ All colors are HSL for consistency and theme support.
   }
 
   body {
-    @apply bg-background text-foreground font-sans;
+    @apply text-foreground font-sans;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-image: 
+      linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)),
+      url('/premium_photo-1661811677567-6f14477aa1fa.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -223,4 +238,24 @@ All colors are HSL for consistency and theme support.
   .stagger-children > *:nth-child(4) { animation-delay: 0.4s; }
   .stagger-children > *:nth-child(5) { animation-delay: 0.5s; }
   .stagger-children > *:nth-child(6) { animation-delay: 0.6s; }
+
+  /* Background image utilities */
+  .bg-overlay {
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(2px);
+  }
+
+  .bg-overlay-dark {
+    background-color: rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(2px);
+  }
+
+  /* Enhanced card styling for better contrast over background */
+  .card-enhanced {
+    @apply bg-white/95 backdrop-blur-sm border border-white/20 shadow-lg;
+  }
+
+  .card-enhanced-dark {
+    @apply bg-gray-900/95 backdrop-blur-sm border border-gray-700/20 shadow-lg;
+  }
 }
