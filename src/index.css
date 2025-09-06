@@ -137,7 +137,7 @@ All colors are HSL for consistency and theme support.
   /* Dark mode body background */
   .dark body {
     background-image: 
-      linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+      linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
       url('/premium_photo-1661811677567-6f14477aa1fa.jpg');
   }
 }
@@ -151,7 +151,7 @@ All colors are HSL for consistency and theme support.
     @apply text-foreground font-sans;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     background-image: 
-      linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)),
+      linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)),
       url('/premium_photo-1661811677567-6f14477aa1fa.jpg');
     background-size: cover;
     background-position: center;
@@ -259,10 +259,10 @@ All colors are HSL for consistency and theme support.
 
   /* Enhanced card styling for better contrast over background */
   .card-enhanced {
-    @apply bg-white/95 backdrop-blur-sm border border-white/20 shadow-lg;
+    @apply bg-white/98 backdrop-blur-sm border border-white/30 shadow-lg;
   }
 
   .card-enhanced-dark {
-    @apply bg-gray-900/95 backdrop-blur-sm border border-gray-700/20 shadow-lg;
+    @apply bg-gray-900/98 backdrop-blur-sm border border-gray-700/30 shadow-lg;
   }
 }
