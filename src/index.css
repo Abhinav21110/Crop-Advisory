@@ -160,13 +160,13 @@ All colors are HSL for consistency and theme support.
     min-height: 100vh;
   }
 
-  /* Mobile-specific background image - scrolls with content */
+  /* Mobile-specific background image - static with local attachment */
   @media (max-width: 768px) {
     body {
       background-image: 
         linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)),
         url('/mobile.jpg') !important;
-      background-attachment: scroll !important;
+      background-attachment: local !important;
       background-size: cover !important;
       background-position: center center !important;
       background-repeat: no-repeat !important;
@@ -174,13 +174,13 @@ All colors are HSL for consistency and theme support.
     }
   }
 
-  /* Dark mode mobile background - scrolls with content */
+  /* Dark mode mobile background - static with local attachment */
   @media (max-width: 768px) {
     .dark body {
       background-image: 
         linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
         url('/mobile.jpg') !important;
-      background-attachment: scroll !important;
+      background-attachment: local !important;
       background-size: cover !important;
       background-position: center center !important;
       background-repeat: no-repeat !important;
