@@ -160,6 +160,13 @@ All colors are HSL for consistency and theme support.
     min-height: 100vh;
   }
 
+  /* Fix mobile background scrolling issues */
+  @media (max-width: 768px) {
+    body {
+      background-attachment: scroll;
+    }
+  }
+
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Poppins', system-ui, -apple-system, sans-serif;
   }

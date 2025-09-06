@@ -102,7 +102,7 @@ export function Navigation() {
       {/* Mobile Navigation Menu */}
       {isMobileMenuOpen && (
         <div className="mt-4 pt-4 border-t md:hidden">
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-2 gap-2 mb-4">
             {navigation.map((item) => {
               const isActive = location.pathname === item.href;
               return (
@@ -119,6 +119,18 @@ export function Navigation() {
                 </Link>
               );
             })}
+          </div>
+          
+          {/* Mobile Controls - Language and Theme */}
+          <div className="flex items-center justify-center space-x-4 py-3 border-t border-border/50">
+            <div className="flex items-center space-x-2">
+              <span className="text-sm text-muted-foreground">{t('language')}:</span>
+              <LanguageSelector />
+            </div>
+            <div className="flex items-center space-x-2">
+              <span className="text-sm text-muted-foreground">{t('theme')}:</span>
+              <ThemeToggle />
+            </div>
           </div>
         </div>
       )}
