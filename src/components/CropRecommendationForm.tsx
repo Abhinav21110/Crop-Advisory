@@ -93,7 +93,7 @@ interface PredictionResult {
 }
 
 export default function CropRecommendationForm() {
-  const API_BASE = (import.meta as any).env?.VITE_API_BASE || import.meta.env.VITE_API_BASE || 'http://localhost:5000';
+  const API_BASE = (import.meta.env?.VITE_API_BASE as string) || 'http://localhost:5000';
   const soilTypes = [
     'Sandy', 'Loam', 'Black', 'Clay', 'Red', 'Silt', 'Chalky', 'Peaty', 
     'Gravel', 'Laterite', 'Alluvial', 'Coastal'
@@ -260,7 +260,7 @@ export default function CropRecommendationForm() {
   };
 
   // Function to ensure variety in crop recommendations
-  const ensureCropVariety = (recommendations: any[]): any[] => {
+  const ensureCropVariety = (recommendations: Array<{crop: string; confidence: number; details: CropDetails}>): Array<{crop: string; confidence: number; details: CropDetails}> => {
     const seenCrops = new Set();
     const variedRecommendations = [];
     
