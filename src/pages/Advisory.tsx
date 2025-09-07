@@ -56,12 +56,12 @@ export default function Advisory() {
   const fetchRegionalRecommendation = useCallback(async () => {
     setLoading(true);
     try {
-      // Using mock data instead of API call to test
+      // Using mock data instead of API call
       setTimeout(() => {
         const mockData: RegionalRecommendation = {
           success: true,
           state: selectedState,
-          city: "Test City",
+          city: "",
           primary_recommendation: "Wheat",
           confidence: 0.85,
           all_recommendations: [
@@ -290,7 +290,7 @@ export default function Advisory() {
                         {regionalData.primary_recommendation.toUpperCase()}
                       </h2>
                       <p className="text-lg opacity-90">
-                        Best choice for {regionalData.state} ({regionalData.city})
+                        Best choice for {regionalData.state}{regionalData.city ? ` (${regionalData.city})` : ""}
                       </p>
                     </div>
                     
