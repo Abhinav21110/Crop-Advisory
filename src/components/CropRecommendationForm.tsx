@@ -445,16 +445,7 @@ export default function CropRecommendationForm() {
             <span>AI Crop Recommendation</span>
           </CardTitle>
           <p className="text-sm text-muted-foreground">
-            Fill in your soil and environmental conditions to get AI-powered crop recommendations. 
-            {!loading && !prediction && (
-              <span className="block mt-1 text-xs">
-                💡 <strong>Note:</strong> Backend server required for live predictions. If unavailable, sample data will be shown.
-                <br />
-                🧪 <strong>Test:</strong> Use the "Test Input-Based Prediction" button to see how the form works with your inputs.
-                <br />
-                🔄 <strong>Auto-fix:</strong> If backend returns limited variety, recommendations are automatically regenerated for better diversity.
-              </span>
-            )}
+            Fill in your soil and environmental conditions to get AI-powered crop recommendations.
           </p>
         </CardHeader>
         <CardContent>
