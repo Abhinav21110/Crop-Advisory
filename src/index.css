@@ -325,10 +325,10 @@ All colors are HSL for consistency and theme support.
 
   /* Enhanced card styling for better contrast over background */
   .card-enhanced {
-    @apply bg-white/98 backdrop-blur-sm border border-white/30 shadow-lg;
+    @apply bg-white/95 backdrop-blur-sm border border-white/20 shadow-lg;
   }
 
   .card-enhanced-dark {
-    @apply bg-gray-900/98 backdrop-blur-sm border border-gray-700/30 shadow-lg;
+    @apply bg-gray-900/95 backdrop-blur-sm border border-gray-700/20 shadow-lg;
   }
 }
