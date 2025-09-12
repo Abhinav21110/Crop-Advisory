@@ -12,6 +12,7 @@ const translations: Record<string, Record<string, string>> = {
     weather: "Weather",
     pestDetection: "Pest Detection",
     marketPrices: "Market Prices",
+    marketplace: "Marketplace",
     chatbot: "Chatbot",
     feedback: "Feedback",
     
@@ -313,13 +314,13 @@ const translations: Record<string, Record<string, string>> = {
     info: "సమాచారం",
     reset: "రీసెట్ చేయండి",
     sort: "క్రమబద్ధీకరించండి",
-    export: "ఎగుమతి",
+    export: "నిర్యాత",
     import: "దిగుమతి",
     view: "చూడండి",
     add: "జోడించండి",
     remove: "తొలగించండి",
     update: "అప్‌డేట్ చేయండి",
-    refresh: "రిఫ్రెష్ చేయండి",
+    refresh: "తాజా చేయండి",
     home: "హోమ్",
     settings: "సెట్టింగులు",
     help: "సహాయం",
@@ -466,7 +467,7 @@ const translations: Record<string, Record<string, string>> = {
     // Crops
     cropName: "பயிர் பெயர்",
     plantingDate: "நடவு தேதி",
-    harvestDate: "அறுவடை தேதி",
+    harvestDate: "அறுவடை தேతி",
     growthStage: "வளர்ச்சி நிலை",
     expectedYield: "எதிர்பார்க்கப்படும் விளைச்சல்",
     
@@ -621,7 +622,7 @@ const translations: Record<string, Record<string, string>> = {
     
     // Chatbot specific
     cropCareAIAssistant: "CropCare AI সহায়ক",
-    aiAssistantDescription: "ভয়েস এবং বহুভাষিক সহায়তা সহ আপনার কৃষি প্রশ্নের জন্য বুদ্ধিমান AI-চালিত উত্তর পান। ব্যাপক কৃষি ডেটা সহ Gemini 2.5 Pro দ্বারা চালিত।",
+    aiAssistantDescription: "ভয়েস এবং বহুভাষিক সহাযতা সহ আপনার কৃষি প্রশ্নের জন্য বুদ্ধিমান AI-চালিত উত্তর পান। ব্যাপক কৃষি ডেটা সহ Gemini 2.5 Pro দ্বারা চালিত।",
     voiceLanguageControls: "ভয়েস এবং ভাষা নিয়ন্ত্রণ",
     chatWithCropCareAI: "CropCare AI এর সাথে চ্যাট করুন"
   },
@@ -712,7 +713,7 @@ const translations: Record<string, Record<string, string>> = {
     
     // Chatbot specific
     cropCareAIAssistant: "CropCare AI સહાયક",
-    aiAssistantDescription: "વૉઇસ અને બહુભાષી સપોર્ટ સાથે તમારા ખેતીના પ્રશ્નો માટે બુદ્ધિશાળી AI-સંચાલિત જવાબો મેળવો। વ્યાપક કૃષિ ડેટા સાથે Gemini 2.5 Pro દ્વારા સંચાલિત.",
+    aiAssistantDescription: "વૉઇસ અને બહુભાષી સપોર્ટ સાથે તમારા ખેતીના પ્રશ્નો માટે બુદ્ધિશાળી AI-સંચાલિત જવાબો મેળવો. વ્યાપક કૃષિ ડેટા સાથે Gemini 2.5 Pro દ્વારા સંચાલિત.",
     voiceLanguageControls: "વૉઇસ અને ભાષા નિયંત્રણો",
     chatWithCropCareAI: "CropCare AI સાથે ચેટ કરો"
   },
@@ -827,7 +828,7 @@ const translations: Record<string, Record<string, string>> = {
     
     // Chatbot specific
     cropCareAIAssistant: "CropCare AI ಸಹಾಯಕ",
-    aiAssistantDescription: "ಧ್ವನಿ ಮತ್ತು ಬಹುಭಾಷಾ ಬೆಂಬಲದೊಂದಿಗೆ ನಿಮ್ಮ ಕೃಷಿ ಪ್ರಶ್ನೆಗಳಿಗೆ ಬುದ್ಧಿವಂತ AI-ಚಾಲಿತ ಉತ್ತರಗಳನ್ನು ಪಡೆಯಿರಿ। ವ್ಯಾಪಕ ಕೃಷಿ ಡೇಟಾದೊಂದಿಗೆ Gemini 2.5 Pro ನಿಂದ ಚಾಲಿತ.",
+    aiAssistantDescription: "ಧ್ವನಿ ಮತ್ತು ಬಹುಭಾಷಾ ಬೆಂಬಲದೊಂದಿಗೆ ನಿಮ್ಮ ಕೃಷಿ ಪ್ರಶ್ನೆಗಳಿಗೆ ಬುದ್ಧಿವಂತ AI-ಚಾಲಿತ ಉತ್ತರಗಳನ್ನು ಪಡೆಯಿರಿ. ವ್ಯಾಪಕ ಕೃಷಿ ಡೇಟಾದೊಂದಿಗೆ Gemini 2.5 Pro ನಿಂದ ಚಾಲಿತ.",
     voiceLanguageControls: "ಧ್ವನಿ ಮತ್ತು ಭಾಷಾ ನಿಯಂತ್ರಣಗಳು",
     chatWithCropCareAI: "CropCare AI ಯೊಂದಿಗೆ ಚಾಟ್ ಮಾಡಿ"
   },

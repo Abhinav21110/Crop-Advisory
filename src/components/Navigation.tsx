@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { gsap } from "gsap";
 import { 
   Home, 
   Lightbulb, 
@@ -17,7 +18,8 @@ import {
   User,
   Settings,
   LogOut,
-  ChevronDown
+  ChevronDown,
+  ShoppingBag
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -42,6 +44,7 @@ const navigation = [
   { name: "weather", href: "/weather", icon: Cloud },
   { name: "pestDetection", href: "/pests", icon: Bug },
   { name: "marketPrices", href: "/market", icon: TrendingUp },
+  { name: "marketplace", href: "/marketplace", icon: ShoppingBag },
   { name: "chatbot", href: "/chat", icon: MessageCircle },
   { name: "feedback", href: "/feedback", icon: MessageSquare },
 ];
@@ -56,6 +59,85 @@ export function Navigation() {
   const navigate = useNavigate();
   const { t } = useLanguage();
   const { user, logout } = useAuth();
+
+  const headerRef = useRef<HTMLDivElement>(null);
+  const logoRef = useRef<HTMLDivElement>(null);
+  const navItemsRef = useRef<HTMLDivElement[]>([]);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const header = headerRef.current;
+    const logo = logoRef.current;
+
+    if (header && logo) {
+      // Initial header animation
+      gsap.fromTo(header,
+        { y: -100, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.8, ease: "power2.out" }
+      );
+
+      // Logo animation
+      gsap.fromTo(logo,
+        { scale: 0, rotation: -180 },
+        { scale: 1, rotation: 0, duration: 1, delay: 0.3, ease: "back.out(1.7)" }
+      );
+
+      // Stagger animation for nav items
+      if (navItemsRef.current.length > 0) {
+        gsap.fromTo(navItemsRef.current,
+          { opacity: 0, y: 20 },
+          { 
+            opacity: 1, 
+            y: 0, 
+            duration: 0.5, 
+            stagger: 0.1, 
+            delay: 0.5,
+            ease: "power2.out" 
+          }
+        );
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    const mobileMenu = mobileMenuRef.current;
+    
+    if (mobileMenu) {
+      if (isMobileMenuOpen) {
+        gsap.fromTo(mobileMenu,
+          { height: 0, opacity: 0 },
+          { height: "auto", opacity: 1, duration: 0.3, ease: "power2.out" }
+        );
+      } else {
+        gsap.to(mobileMenu,
+          { height: 0, opacity: 0, duration: 0.3, ease: "power2.in" }
+        );
+      }
+    }
+  }, [isMobileMenuOpen]);
+
+  const addNavItemRef = (el: HTMLDivElement | null, index: number) => {
+    if (el) {
+      navItemsRef.current[index] = el;
+    }
+  };
+
+  const handleNavItemClick = (href: string) => {
+    // Add click animation
+    const clickedItem = navItemsRef.current.find(item => 
+      item?.querySelector(`a[href="${href}"]`)
+    );
+    
+    if (clickedItem) {
+      gsap.to(clickedItem, {
+        scale: 0.95,
+        duration: 0.1,
+        yoyo: true,
+        repeat: 1,
+        ease: "power2.inOut"
+      });
+    }
+  };
 
   const handleLogout = () => {
     logout();
@@ -97,11 +179,11 @@ export function Navigation() {
 
   return (
     <div>
-    <Card className="sticky top-0 z-50 w-full border-b bg-card/95 backdrop-blur-lg shadow-[var(--shadow-soft)] transition-smooth">
+    <Card ref={headerRef} className="sticky top-0 z-50 w-full border-b bg-card/95 backdrop-blur-lg shadow-[var(--shadow-soft)] transition-smooth">
       <div className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center space-x-3">
-            <div className="p-2 bg-primary rounded-xl transition-smooth hover:scale-110">
+            <div ref={logoRef} className="p-2 bg-primary rounded-xl transition-smooth hover:scale-110 cursor-pointer">
               <Leaf className="h-6 w-6 text-primary-foreground" />
             </div>
             <div>
@@ -168,15 +250,18 @@ export function Navigation() {
 
       {/* Mobile Navigation Menu */}
       {isMobileMenuOpen && (
-        <div className="mt-4 pt-4 border-t md:hidden">
+        <div ref={mobileMenuRef} className="mt-4 pt-4 border-t md:hidden overflow-hidden">
           <div className="grid grid-cols-2 gap-2 mb-4">
-            {navigation.map((item) => {
+            {navigation.map((item, index) => {
               const isActive = location.pathname === item.href;
               return (
                 <Link
                   key={item.name}
                   to={item.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    handleNavItemClick(item.href);
+                  }}
                   className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-smooth hover:bg-accent/50 ${
                     isActive ? 'bg-accent text-accent-foreground' : 'text-muted-foreground hover:text-foreground'
                   }`}
@@ -247,19 +332,21 @@ export function Navigation() {
       }`}>
         <Card className="bg-card/95 backdrop-blur-lg shadow-[var(--shadow-strong)] border-primary/20">
           <div className="flex items-center p-3 space-x-1">
-            {navigation.map((item) => {
+            {navigation.map((item, index) => {
               const isActive = location.pathname === item.href;
               return (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-smooth hover:bg-accent/50 ${
-                    isActive ? 'bg-accent text-accent-foreground' : 'text-muted-foreground hover:text-foreground'
-                  }`}
-                >
-                  <item.icon className="h-5 w-5" />
-                  <span className="font-medium">{t(item.name)}</span>
-                </Link>
+                <div key={item.name} ref={(el) => addNavItemRef(el, index)}>
+                  <Link
+                    to={item.href}
+                    onClick={() => handleNavItemClick(item.href)}
+                    className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-smooth hover:bg-accent/50 ${
+                      isActive ? 'bg-accent text-accent-foreground' : 'text-muted-foreground hover:text-foreground'
+                    }`}
+                  >
+                    <item.icon className="h-5 w-5" />
+                    <span className="font-medium">{t(item.name)}</span>
+                  </Link>
+                </div>
               );
             })}
             
